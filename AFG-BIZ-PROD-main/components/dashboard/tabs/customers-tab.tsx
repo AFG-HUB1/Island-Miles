@@ -27,7 +27,34 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Search, Plus, MoreVertical, Edit, Trash2, Package, Scale } from "lucide-react"
+import {
+  Search,
+  Plus,
+  MoreVertical,
+  Edit,
+  Trash2,
+  Package,
+  Scale,
+  Phone,
+  Mail,
+  MapPin,
+  Truck,
+  DollarSign,
+  Calendar,
+  CheckCircle,
+  Clock,
+  XCircle,
+  StickyNote,
+} from "lucide-react"
+
+interface DeliveryRecord {
+  id: string
+  date: string
+  packageNumber: string
+  status: "delivered" | "in-transit" | "pending" | "failed"
+  cod: number
+  driver: string
+}
 
 interface Customer {
   id: number
@@ -41,15 +68,61 @@ interface Customer {
   deliveries: number
   codBalance: number
   notes: string
+  customerSince: string
+  deliveryHistory: DeliveryRecord[]
 }
 
 const initialCustomers: Customer[] = [
-  { id: 1, name: "John Smith", phone: "876-555-0123", email: "john@email.com", address: "12 Hope Road", location: "Kingston", packageNumber: "PKG-001", weight: 5.2, deliveries: 45, codBalance: 2500, notes: "" },
-  { id: 2, name: "Sarah Johnson", phone: "876-555-0456", email: "sarah@email.com", address: "45 Main Street", location: "St. Andrew", packageNumber: "PKG-002", weight: 3.8, deliveries: 32, codBalance: -1200, notes: "Prefers morning delivery" },
-  { id: 3, name: "Michael Brown", phone: "876-555-0789", email: "michael@email.com", address: "78 Beach Blvd", location: "Montego Bay", packageNumber: "PKG-003", weight: 12.5, deliveries: 67, codBalance: 4800, notes: "" },
-  { id: 4, name: "Lisa Williams", phone: "876-555-0321", email: "lisa@email.com", address: "23 Hilltop Drive", location: "Mandeville", packageNumber: "PKG-004", weight: 2.1, deliveries: 23, codBalance: 850, notes: "Gate code: 4521" },
-  { id: 5, name: "David Thompson", phone: "876-555-0654", email: "david@email.com", address: "56 Central Ave", location: "Spanish Town", packageNumber: "PKG-005", weight: 8.7, deliveries: 89, codBalance: -350, notes: "" },
+  {
+    id: 1, name: "John Smith", phone: "876-555-0123", email: "john@email.com", address: "12 Hope Road", location: "Kingston", packageNumber: "PKG-001", weight: 5.2, deliveries: 45, codBalance: 2500, notes: "", customerSince: "2023-03-12",
+    deliveryHistory: [
+      { id: "DEL-001", date: "2024-12-15", packageNumber: "PKG-001", status: "in-transit", cod: 2500, driver: "Omar Williams" },
+      { id: "DEL-018", date: "2024-11-28", packageNumber: "PKG-018", status: "delivered", cod: 1800, driver: "Damian Clarke" },
+      { id: "DEL-031", date: "2024-11-10", packageNumber: "PKG-031", status: "delivered", cod: 3200, driver: "Omar Williams" },
+      { id: "DEL-044", date: "2024-10-22", packageNumber: "PKG-044", status: "failed", cod: 950, driver: "Andre Mitchell" },
+    ],
+  },
+  {
+    id: 2, name: "Sarah Johnson", phone: "876-555-0456", email: "sarah@email.com", address: "45 Main Street", location: "St. Andrew", packageNumber: "PKG-002", weight: 3.8, deliveries: 32, codBalance: -1200, notes: "Prefers morning delivery", customerSince: "2023-06-04",
+    deliveryHistory: [
+      { id: "DEL-002", date: "2024-12-15", packageNumber: "PKG-002", status: "pending", cod: 1800, driver: "Unassigned" },
+      { id: "DEL-022", date: "2024-11-30", packageNumber: "PKG-022", status: "delivered", cod: 2200, driver: "Kevin Brown" },
+      { id: "DEL-040", date: "2024-11-05", packageNumber: "PKG-040", status: "delivered", cod: 1500, driver: "Marcus Thompson" },
+    ],
+  },
+  {
+    id: 3, name: "Michael Brown", phone: "876-555-0789", email: "michael@email.com", address: "78 Beach Blvd", location: "Montego Bay", packageNumber: "PKG-003", weight: 12.5, deliveries: 67, codBalance: 4800, notes: "", customerSince: "2022-11-19",
+    deliveryHistory: [
+      { id: "DEL-003", date: "2024-12-14", packageNumber: "PKG-003", status: "delivered", cod: 3200, driver: "Damian Clarke" },
+      { id: "DEL-025", date: "2024-11-26", packageNumber: "PKG-025", status: "delivered", cod: 4100, driver: "Omar Williams" },
+      { id: "DEL-038", date: "2024-11-08", packageNumber: "PKG-038", status: "delivered", cod: 2750, driver: "Kevin Brown" },
+      { id: "DEL-052", date: "2024-10-15", packageNumber: "PKG-052", status: "delivered", cod: 3600, driver: "Damian Clarke" },
+    ],
+  },
+  {
+    id: 4, name: "Lisa Williams", phone: "876-555-0321", email: "lisa@email.com", address: "23 Hilltop Drive", location: "Mandeville", packageNumber: "PKG-004", weight: 2.1, deliveries: 23, codBalance: 850, notes: "Gate code: 4521", customerSince: "2024-01-30",
+    deliveryHistory: [
+      { id: "DEL-004", date: "2024-12-14", packageNumber: "PKG-004", status: "failed", cod: 950, driver: "Andre Mitchell" },
+      { id: "DEL-029", date: "2024-11-21", packageNumber: "PKG-029", status: "delivered", cod: 1200, driver: "Marcus Thompson" },
+    ],
+  },
+  {
+    id: 5, name: "David Thompson", phone: "876-555-0654", email: "david@email.com", address: "56 Central Ave", location: "Spanish Town", packageNumber: "PKG-005", weight: 8.7, deliveries: 89, codBalance: -350, notes: "", customerSince: "2022-08-07",
+    deliveryHistory: [
+      { id: "DEL-005", date: "2024-12-15", packageNumber: "PKG-005", status: "in-transit", cod: 4100, driver: "Marcus Thompson" },
+      { id: "DEL-021", date: "2024-11-29", packageNumber: "PKG-021", status: "delivered", cod: 2900, driver: "Omar Williams" },
+      { id: "DEL-035", date: "2024-11-12", packageNumber: "PKG-035", status: "delivered", cod: 1750, driver: "Kevin Brown" },
+      { id: "DEL-048", date: "2024-10-19", packageNumber: "PKG-048", status: "delivered", cod: 3300, driver: "Damian Clarke" },
+    ],
+  },
 ]
+
+const historyStatusConfig: Record<DeliveryRecord["status"], { label: string; color: string; icon: typeof CheckCircle }> = {
+  delivered: { label: "Delivered", color: "text-green-500", icon: CheckCircle },
+  "in-transit": { label: "In Transit", color: "text-primary", icon: Truck },
+  pending: { label: "Pending", color: "text-amber-500", icon: Clock },
+  failed: { label: "Failed", color: "text-destructive", icon: XCircle },
+}
 
 const parishes = [
   "Kingston", "St. Andrew", "St. Thomas", "Portland", "St. Mary",
@@ -62,6 +135,7 @@ export function CustomersTab() {
   const [searchQuery, setSearchQuery] = useState("")
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false)
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null)
   const [formData, setFormData] = useState({
     name: "",
@@ -106,10 +180,17 @@ export function CustomersTab() {
       deliveries: 0,
       codBalance: 0,
       notes: formData.notes,
+      customerSince: new Date().toISOString().split("T")[0],
+      deliveryHistory: [],
     }
     setCustomers([newCustomer, ...customers])
     resetForm()
     setIsAddDialogOpen(false)
+  }
+
+  const openDetailDialog = (customer: Customer) => {
+    setSelectedCustomer(customer)
+    setIsDetailDialogOpen(true)
   }
 
   const handleEditCustomer = () => {
@@ -330,17 +411,21 @@ export function CustomersTab() {
               {filteredCustomers.map((customer) => (
                 <tr key={customer.id} className="border-b border-border last:border-0 hover:bg-white/[0.02] transition-colors">
                   <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => openDetailDialog(customer)}
+                      className="flex items-center gap-3 text-left group"
+                    >
                       <Avatar className="w-8 h-8">
                         <AvatarFallback className="bg-blue-500/10 text-blue-500 text-xs">
                           {customer.name.split(" ").map(n => n[0]).join("")}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <span className="text-sm text-foreground block">{customer.name}</span>
+                        <span className="text-sm text-foreground block group-hover:text-primary group-hover:underline transition-colors">{customer.name}</span>
                         <span className="text-xs text-muted-foreground">{customer.address}</span>
                       </div>
-                    </div>
+                    </button>
                   </td>
                   <td className="px-4 py-3">
                     <div className="text-sm text-foreground">{customer.phone}</div>
@@ -396,6 +481,147 @@ export function CustomersTab() {
             </DialogDescription>
           </DialogHeader>
           <CustomerForm onSubmit={handleEditCustomer} submitLabel="Save Changes" />
+        </DialogContent>
+      </Dialog>
+
+      {/* Customer Detail Dialog */}
+      <Dialog open={isDetailDialogOpen} onOpenChange={setIsDetailDialogOpen}>
+        <DialogContent className="bg-card border-border max-w-2xl max-h-[90vh] overflow-y-auto">
+          {selectedCustomer && (
+            <>
+              <DialogHeader>
+                <div className="flex items-center gap-4">
+                  <Avatar className="w-14 h-14">
+                    <AvatarFallback className="bg-blue-500/10 text-blue-500 text-lg">
+                      {selectedCustomer.name.split(" ").map(n => n[0]).join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <DialogTitle className="text-xl">{selectedCustomer.name}</DialogTitle>
+                    <DialogDescription className="text-muted-foreground flex items-center gap-1.5 mt-1">
+                      <Calendar className="w-3.5 h-3.5" />
+                      Customer since {new Date(selectedCustomer.customerSince).toLocaleDateString("en-US", { month: "long", year: "numeric" })}
+                    </DialogDescription>
+                  </div>
+                </div>
+              </DialogHeader>
+
+              <div className="space-y-6 py-2">
+                {/* Quick Stats */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-[#1E2535] rounded-xl border border-border p-3">
+                    <div className="flex items-center gap-1.5 text-muted-foreground">
+                      <Truck className="w-3.5 h-3.5" />
+                      <span className="text-[10px] uppercase tracking-wider">Deliveries</span>
+                    </div>
+                    <p className="text-lg font-semibold text-foreground mt-1">{selectedCustomer.deliveries}</p>
+                  </div>
+                  <div className="bg-[#1E2535] rounded-xl border border-border p-3">
+                    <div className="flex items-center gap-1.5 text-muted-foreground">
+                      <DollarSign className="w-3.5 h-3.5" />
+                      <span className="text-[10px] uppercase tracking-wider">COD Balance</span>
+                    </div>
+                    <p className={`text-lg font-semibold mt-1 ${selectedCustomer.codBalance >= 0 ? "text-primary" : "text-destructive"}`}>
+                      {selectedCustomer.codBalance >= 0 ? "+" : ""}${selectedCustomer.codBalance.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="bg-[#1E2535] rounded-xl border border-border p-3">
+                    <div className="flex items-center gap-1.5 text-muted-foreground">
+                      <Scale className="w-3.5 h-3.5" />
+                      <span className="text-[10px] uppercase tracking-wider">Last Weight</span>
+                    </div>
+                    <p className="text-lg font-semibold text-foreground mt-1">{selectedCustomer.weight} kg</p>
+                  </div>
+                </div>
+
+                {/* Contact Details */}
+                <div>
+                  <h3 className="text-sm font-medium text-foreground mb-3">Contact Details</h3>
+                  <div className="bg-[#1E2535] rounded-xl border border-border divide-y divide-border">
+                    <div className="flex items-center gap-3 p-3">
+                      <Phone className="w-4 h-4 text-muted-foreground shrink-0" />
+                      <span className="text-sm text-foreground">{selectedCustomer.phone}</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3">
+                      <Mail className="w-4 h-4 text-muted-foreground shrink-0" />
+                      <span className="text-sm text-foreground">{selectedCustomer.email || "—"}</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3">
+                      <MapPin className="w-4 h-4 text-muted-foreground shrink-0" />
+                      <span className="text-sm text-foreground">{selectedCustomer.address}, {selectedCustomer.location}</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3">
+                      <Package className="w-4 h-4 text-muted-foreground shrink-0" />
+                      <span className="text-sm text-foreground">Current package: {selectedCustomer.packageNumber}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Notes */}
+                {selectedCustomer.notes && (
+                  <div>
+                    <h3 className="text-sm font-medium text-foreground mb-3">Notes</h3>
+                    <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-3 flex gap-3">
+                      <StickyNote className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                      <p className="text-sm text-foreground">{selectedCustomer.notes}</p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Delivery History */}
+                <div>
+                  <h3 className="text-sm font-medium text-foreground mb-3">Delivery History</h3>
+                  {selectedCustomer.deliveryHistory.length > 0 ? (
+                    <div className="bg-[#1E2535] rounded-xl border border-border divide-y divide-border">
+                      {selectedCustomer.deliveryHistory.map((record) => {
+                        const config = historyStatusConfig[record.status]
+                        const StatusIcon = config.icon
+                        return (
+                          <div key={record.id} className="flex items-center justify-between gap-3 p-3">
+                            <div className="flex items-center gap-3 min-w-0">
+                              <StatusIcon className={`w-4 h-4 shrink-0 ${config.color}`} />
+                              <div className="min-w-0">
+                                <p className="text-sm text-foreground truncate">
+                                  {record.id} · {record.packageNumber}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  {record.date} · {record.driver}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="text-right shrink-0">
+                              <p className="text-sm font-medium text-foreground">${record.cod.toLocaleString()}</p>
+                              <p className={`text-xs ${config.color}`}>{config.label}</p>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  ) : (
+                    <div className="bg-[#1E2535] rounded-xl border border-border p-6 text-center">
+                      <p className="text-sm text-muted-foreground">No deliveries yet for this customer.</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex justify-end gap-3">
+                  <Button variant="outline" onClick={() => setIsDetailDialogOpen(false)}>
+                    Close
+                  </Button>
+                  <Button
+                    className="bg-primary hover:bg-primary/90"
+                    onClick={() => {
+                      setIsDetailDialogOpen(false)
+                      openEditDialog(selectedCustomer)
+                    }}
+                  >
+                    <Edit className="w-4 h-4 mr-2" />
+                    Edit Customer
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </div>
