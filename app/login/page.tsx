@@ -25,7 +25,7 @@ export default function LoginPage() {
     const success = await login(email, password)
     
     if (success) {
-      router.push("/")
+      router.push("/dashboard")
     } else {
       setError("Invalid email or password. Please try again.")
     }
@@ -35,7 +35,7 @@ export default function LoginPage() {
 
   const handleDemoLogin = () => {
     loginWithDemo()
-    router.push("/")
+    router.push("/dashboard")
   }
 
   return (
