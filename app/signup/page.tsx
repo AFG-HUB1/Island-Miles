@@ -90,7 +90,7 @@ export default function SignupPage() {
     const success = await signup(name, email, password)
     
     if (success) {
-      router.push("/")
+      router.push("/dashboard")
     } else {
       setError("Failed to create account. Please try again.")
     }
@@ -100,7 +100,7 @@ export default function SignupPage() {
 
   const handleDemoLogin = () => {
     loginWithDemo()
-    router.push("/")
+    router.push("/dashboard")
   }
 
   const features = [
