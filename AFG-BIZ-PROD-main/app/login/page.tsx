@@ -53,7 +53,7 @@ export default function LoginPage() {
             <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
               <Package className="w-7 h-7 text-primary-foreground" />
             </div>
-            <span className="text-3xl font-bold text-foreground">AFG</span>
+            <span className="text-3xl font-bold text-foreground">Island Miles</span>
           </div>
           
           <h1 className="text-4xl xl:text-5xl font-bold text-foreground mb-6 leading-tight">
